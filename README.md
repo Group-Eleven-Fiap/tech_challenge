@@ -1,102 +1,183 @@
-# Sistema de Gestão de Restaurantes
+# 🚀 TECH CHALLENGE
 
-## O Problema
-
-Na nossa região, um grupo de restaurantes decidiu contratar estudantes para construir um sistema de gestão para seus estabelecimentos. Essa decisão foi motivada pelo alto custo de sistemas individuais, o que levou os restaurantes a se unirem para desenvolver um sistema único e compartilhado.
-
-Esse sistema permitirá que os clientes escolham restaurantes com base na comida oferecida, em vez de se basearem na qualidade do sistema de gestão.
-
-O objetivo é criar um sistema robusto que permita a todos os restaurantes gerenciar eficientemente suas operações, enquanto os clientes poderão consultar informações, deixar avaliações e fazer pedidos online.
-
-Devido à limitação de recursos financeiros, foi acordado que a entrega do sistema será realizada em fases, garantindo que cada etapa seja desenvolvida de forma cuidadosa e eficaz.
-
-A divisão em fases possibilitará uma implementação gradual e controlada, permitindo ajustes e melhorias contínuas conforme o sistema for sendo utilizado e avaliado tanto pelos restaurantes quanto pelos clientes.
+O **Tech Challenge** é o projeto da fase que engloba os conhecimentos obtidos em todas as disciplinas.  
+Esta atividade deve ser desenvolvida em grupo e é **obrigatória**, compondo a nota final.
 
 ---
 
-# Objetivo
+## 📌 O Problema
 
-Desenvolver um backend completo e robusto utilizando o framework **Spring Boot**, com foco no gerenciamento de usuários, incluindo operações de criação, atualização, exclusão e validação de login.
+Na nossa região, um grupo de restaurantes decidiu contratar estudantes para construir um sistema de gestão compartilhado.
 
-O projeto será configurado para rodar em um ambiente **Docker**, utilizando **Docker Compose**, o que permitirá a orquestração dos serviços e a integração com um banco de dados relacional, como **PostgreSQL, MySQL ou H2**.
+Essa decisão foi motivada pelo alto custo de sistemas individuais, levando os restaurantes a desenvolverem uma solução única.
 
-A configuração com Docker Compose garantirá que a aplicação seja facilmente replicável e escalável, permitindo a implantação em diversos ambientes de forma consistente e eficiente.
+O sistema permitirá que:
 
-Além disso, o projeto será desenvolvido seguindo as melhores práticas de arquitetura e segurança, de modo que o sistema seja não apenas funcional, mas também **seguro, escalável e de fácil manutenção**.
+- Clientes escolham restaurantes com base na comida oferecida  
+- Restaurantes gerenciem suas operações de forma eficiente  
+- Clientes consultem informações, façam pedidos e deixem avaliações  
+
+Devido a limitações financeiras, o sistema será entregue **em fases**, garantindo:
+
+- Desenvolvimento cuidadoso  
+- Implementação gradual  
+- Melhorias contínuas  
 
 ---
 
-# Usuário
+## 🎯 Objetivo
 
-Os usuários terão uma interface para se cadastrar, porém, nessa parte do projeto, vamos focar apenas nas entregas de **backend**.
+Desenvolver um **backend robusto com Spring Boot**, aplicando os conceitos aprendidos na Fase 1.
 
-O sistema terá **dois tipos de usuário**:
+---
 
-- Dono de restaurante
-- Cliente
+## ⚙️ Funcionalidades Obrigatórias
 
-Os campos necessários para um bom cadastro de usuário são:
+O sistema deve permitir:
+
+- Cadastro de usuários  
+- Atualização de usuários  
+- Exclusão de usuários  
+- Troca de senha (endpoint separado)  
+- Atualização de dados (endpoint separado do de senha)  
+- Registro da data da última alteração  
+- Busca de usuários por nome  
+- Garantia de e-mail único  
+- Validação de login (login + senha)  
+
+### 🔐 Observações
+
+- Não é obrigatório usar **Spring Security**  
+- Pode ser feita validação simples via banco de dados  
+
+---
+
+## 🐳 Docker
+
+A aplicação deve ser dockerizada com:
+
+- Docker Compose  
+- Banco relacional (MySQL ou PostgreSQL)  
+
+---
+
+## 👥 Tipos de Usuários
+
+O sistema deve ter obrigatoriamente:
+
+- Dono de restaurante  
+- Cliente  
+
+Outros tipos podem ser adicionados.
+
+---
+
+## 🧾 Campos Obrigatórios
+
+Todo usuário deve conter:
 
 - Nome (String)  
-- Email (String)  
+- E-mail (String - único)  
 - Login (String)  
 - Senha (String)  
 - Data da última alteração (Date)  
-- Endereço  
+- Endereço (String ou objeto com rua, número, cidade, CEP)  
 
 ---
 
-# Funcionalidades
+## 📊 Critérios de Avaliação
 
-## Gerenciar Usuário
+### 1. Funcionalidade
 
-Possibilidade de alteração de dados do usuário.
+- Backend atende todos os requisitos  
+- Endpoints funcionando corretamente  
+- Tratamento de erros adequado  
+- Versionamento de API  
+- Uso do padrão **ProblemDetail (RFC 7807)**  
 
-## Troca de Senha
+Requisitos específicos:
 
-Permite trocar a senha do usuário.
-
-## Validação de Login
-
-Validação do login do usuário.
-
----
-
-# Entregáveis e Fatores de Avaliação da Fase 1
-
-## 1. Funcionalidade
-
-- O backend atende a todos os requisitos especificados.
-- Os endpoints funcionam conforme descrito.
-
-## 2. Qualidade do Código
-
-- Uso adequado das práticas de desenvolvimento do Spring Boot.
-- Código organizado e bem documentado.
-
-## 3. Documentação do Projeto
-
-Descrição detalhada do projeto, incluindo:
-
-- Arquitetura
-- Endpoints da API
-- Instruções de configuração e execução
-
-## 4. Collections para Teste
-
-Collections do **Postman** ou ferramenta similar para testar os endpoints da API.
+- Dois tipos de usuários implementados  
+- Busca por nome  
+- E-mail único  
+- Validação de login  
+- Endpoint de troca de senha separado  
+- Endpoint de atualização separado  
 
 ---
 
-# Configuração Docker Compose
+### 2. Qualidade do Código
 
-Arquivo `docker-compose.yml` configurado para subir:
-
-- A aplicação Java
-- O banco de dados
+- Boas práticas de Spring Boot  
+- Princípios SOLID  
+- Código limpo e organizado  
 
 ---
 
-# Repositório de Código
+### 3. 📄 Documentação (Swagger)
 
-Repositório de fontes aberto (**GitHub, GitLab etc.**) onde professores possam baixar o código-fonte do projeto.
+- Endpoints documentados com Swagger/OpenAPI  
+- Exemplos de requisições e respostas (sucesso e erro)  
+
+---
+
+### 4. 🗄️ Banco de Dados
+
+- Uso obrigatório de banco relacional  
+- Recomendados: MySQL ou PostgreSQL  
+- Deve rodar em container Docker  
+
+---
+
+### 5. 📬 Collections (Postman)
+
+Deve conter uma collection JSON com:
+
+- Cadastro de usuário válido  
+- Cadastro inválido (ex: e-mail duplicado)  
+- Alteração de senha (sucesso/erro)  
+- Atualização de dados do usuário  
+- Busca por nome  
+- Validação de login  
+
+---
+
+### 6. 📑 Relatório Técnico (ENTREGÁVEL)
+
+**Único arquivo entregue: PDF**
+
+Deve conter:
+
+- Arquitetura da aplicação  
+- Modelagem de entidades e relacionamentos  
+- Descrição dos endpoints (com exemplos)  
+- Documentação Swagger  
+- Collection Postman  
+- Estrutura do banco de dados  
+- Guia de execução com Docker Compose  
+
+---
+
+### 7. ▶️ Execução
+
+- Arquivo `docker-compose.yml` obrigatório  
+
+---
+
+### 8. 💻 Repositório
+
+- GitHub ou GitLab público  
+- Deve conter:
+  - Código-fonte  
+  - README  
+  - Swagger  
+  - Collection Postman  
+
+O relatório PDF deve ser enviado separadamente.
+
+---
+
+## ⭐ Opcional (Desafio Extra)
+
+- Autenticação com Spring Security + JWT  
+- Testes unitários com JUnit + Mockito  
