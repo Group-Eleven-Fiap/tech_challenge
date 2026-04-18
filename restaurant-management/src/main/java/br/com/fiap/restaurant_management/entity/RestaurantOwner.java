@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @Entity
+@NoArgsConstructor
 @Table(name = "TB_OWNER")
 public class RestaurantOwner extends User {
 

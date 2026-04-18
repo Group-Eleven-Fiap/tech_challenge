@@ -3,19 +3,15 @@ spring:
     name: restaurant-management
 
   datasource:
-    url: jdbc:postgresql://db:5432/restaurant_management
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-
-    hikari:
-      connection-timeout: 30000
-      initialization-fail-timeout: 60000
+    url: jdbc:mysql://localhost:3307/restaurant_management?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: create
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -23,9 +19,6 @@ spring:
 logging:
   level:
     root: INFO
-    com.example.restaurantmanagement: DEBUG
     org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql: DEBUG
-
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} | %-5level | %logger{36} | %msg%n"

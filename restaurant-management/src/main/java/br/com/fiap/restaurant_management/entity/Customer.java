@@ -10,5 +10,6 @@ import java.time.LocalDateTime;
 @Setter
 @SuperBuilder
 @Entity
+@NoArgsConstructor
 @Table(name = "TB_CUSTOMER")
 public class Customer extends User {}
