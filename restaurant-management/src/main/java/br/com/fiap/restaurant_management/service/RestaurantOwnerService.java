@@ -29,7 +29,7 @@ public class RestaurantOwnerService {
 
     public RestaurantOwnerResponse create(RestaurantOwnerRequest request) {
 
-        log.info("Iniciando criação de dono de restaurante | email={}", request.email());
+        log.info("Iniciando criação de dono de restaurante | email={} | cnpj={}", request.email(), request.cnpj());
 
         validateEmail(request.email());
 
@@ -65,15 +65,13 @@ public class RestaurantOwnerService {
         var owner = ownerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id: " + id));
 
-        log.info("Iniciando atualização de dono | id={}", id);
-
         owner.setName(request.name());
         owner.setRestaurantName(request.restaurantName());
         owner.setAddress(addressMapper.toModel(request.address()));
 
         RestaurantOwner updated = ownerRepository.save(owner);
 
-        log.info("Usuário atualizado no banco de dados - ID: {}", id);
+        log.info("Usuário atualizado com sucesso | id={}", id);
 
         return restaurantOwnerMapper.toRestaurantOwnerResponse(updated);
     }

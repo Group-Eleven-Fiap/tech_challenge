@@ -7,13 +7,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
+@RestController
+@RequestMapping("/v1/owners")
 @Slf4j
 public class RestaurantOwnerController {
 
@@ -23,9 +23,11 @@ public class RestaurantOwnerController {
     public ResponseEntity<RestaurantOwnerResponse> createOwner(
             @RequestBody @Valid RestaurantOwnerRequest request) {
 
+        log.info("Recebendo requisição para cadastrar novo proprietário: {}", request.email());
+
         RestaurantOwnerResponse response = restaurantOwnerService.create(request);
 
-        log.info("Cliente cadastrado com sucesso {}", response);
+        log.info("Proprietário cadastrado com sucesso | ID: {}", response.id());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -34,11 +36,11 @@ public class RestaurantOwnerController {
     public ResponseEntity<List<RestaurantOwnerResponse>> findByName(
             @RequestParam String name) {
 
-        log.info("Buscando cliente com nome {}", name);
+        log.info("Buscando proprietário(s) com nome: {}", name);
 
         List<RestaurantOwnerResponse> owners = restaurantOwnerService.findByName(name);
 
-        log.info("Cliente encontrado com nome {}", name);
+        log.info("Proprietário(s) encontrado(s) com sucesso para o nome: {}", name);
 
         return ResponseEntity.ok(owners);
     }
@@ -46,11 +48,11 @@ public class RestaurantOwnerController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
-        log.info("Recebendo requisição para deletar cliente com id: {}", id);
+        log.info("Recebendo requisição para deletar proprietário | ID: {}", id);
 
         restaurantOwnerService.delete(id);
 
-        log.info("Cliente deletado com sucesso | id={}", id);
+        log.info("Proprietário deletado com sucesso | ID: {}", id);
 
         return ResponseEntity.noContent().build();
     }
@@ -60,11 +62,11 @@ public class RestaurantOwnerController {
             @PathVariable Long id,
             @RequestBody @Valid RestaurantOwnerRequest request) {
 
-        log.info("Recebendo requisição para atualizar cliente com ID: {}", id);
+        log.info("Recebendo requisição para atualizar proprietário | ID: {}", id);
 
         RestaurantOwnerResponse response = restaurantOwnerService.update(id, request);
 
-        log.info("Cliente atualizado com sucesso | id={}", id);
+        log.info("Proprietário atualizado com sucesso | ID: {}", id);
 
         return ResponseEntity.ok(response);
     }
@@ -74,11 +76,11 @@ public class RestaurantOwnerController {
             @PathVariable Long id,
             @RequestBody @Valid ChangePasswordRequest request) {
 
-        log.info("Cliente solicitando troca de senha | id={}", id);
+        log.info("Proprietário solicitando troca de senha | ID: {}", id);
 
         restaurantOwnerService.changePassword(id, request);
 
-        log.info("Senha alterada com sucesso | id={}", id);
+        log.info("Senha alterada com sucesso | ID: {}", id);
 
         return ResponseEntity.noContent().build();
     }
