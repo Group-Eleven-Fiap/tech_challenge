@@ -4,10 +4,11 @@ import br.com.fiap.restaurant_management.entity.Customer;
 import br.com.fiap.restaurant_management.entity.dtos.ChangePasswordRequest;
 import br.com.fiap.restaurant_management.entity.dtos.CustomerRequest;
 import br.com.fiap.restaurant_management.entity.dtos.CustomerResponse;
+import br.com.fiap.restaurant_management.exception.InvalidCredentialsException;
+import br.com.fiap.restaurant_management.exception.ResourceNotFoundException;
 import br.com.fiap.restaurant_management.mapper.AddressMapper;
 import br.com.fiap.restaurant_management.mapper.CustomerMapper;
 import br.com.fiap.restaurant_management.repository.CustomerRepository;
-import br.com.fiap.restaurant_management.repository.RestaurantOwnerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,10 +21,10 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final RestaurantOwnerRepository ownerRepository;
     private final CustomerMapper customerMapper;
     private final AddressMapper addressMapper;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final EmailValidationService emailValidationService;
 
     public CustomerResponse create(CustomerRequest request) {
 
@@ -47,13 +48,13 @@ public class CustomerService {
         log.debug("Verificando existência do usuário ID: {}", id);
 
         var customer = customerRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id: " + id));
+                        .orElseThrow(() -> new ResourceNotFoundException("Cliente", "id", id));
         customerRepository.delete(customer);
     }
 
     public CustomerResponse update(Long id, CustomerRequest request) {
         var customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "id", id));
 
         customer.setName(request.name());
         customer.setAddress(addressMapper.toModel(request.address()));
@@ -69,7 +70,7 @@ public class CustomerService {
         Customer customer = findById(id);
 
         if (!passwordEncoder.matches(request.oldPassword(), customer.getPassword())) {
-            throw new RuntimeException("Senha atual inválida");
+            throw new InvalidCredentialsException("Senha atual inválida");
         }
 
         customer.setPassword(passwordEncoder.encode(request.newPassword()));
@@ -80,7 +81,7 @@ public class CustomerService {
         var customers = customerRepository.findByNameContainingIgnoreCase(name);
 
         if (customers.isEmpty()) {
-            throw new RuntimeException("Nenhum cliente encontrado com o nome: " + name);
+            throw new ResourceNotFoundException("Cliente", "nome", name);
         }
 
         return customers.stream()
@@ -90,13 +91,11 @@ public class CustomerService {
 
     private Customer findById(Long id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "id", id));
     }
 
     private void validateEmail(String email) {
-        if (customerRepository.existsByEmail(email) || ownerRepository.existsByEmail(email)) {
-            throw new RuntimeException("Email já cadastrado");
-        }
+        emailValidationService.validateEmailUniqueness(email);
     }
 }
 

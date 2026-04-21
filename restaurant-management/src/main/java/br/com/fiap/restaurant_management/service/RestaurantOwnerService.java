@@ -4,9 +4,10 @@ import br.com.fiap.restaurant_management.entity.RestaurantOwner;
 import br.com.fiap.restaurant_management.entity.dtos.ChangePasswordRequest;
 import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerRequest;
 import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerResponse;
+import br.com.fiap.restaurant_management.exception.InvalidCredentialsException;
+import br.com.fiap.restaurant_management.exception.ResourceNotFoundException;
 import br.com.fiap.restaurant_management.mapper.AddressMapper;
 import br.com.fiap.restaurant_management.mapper.RestaurantOwnerMapper;
-import br.com.fiap.restaurant_management.repository.CustomerRepository;
 import br.com.fiap.restaurant_management.repository.RestaurantOwnerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,17 +16,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class RestaurantOwnerService {
 
     private final RestaurantOwnerRepository ownerRepository;
-    private final CustomerRepository customerRepository;
     private final AddressMapper addressMapper;
     private final RestaurantOwnerMapper restaurantOwnerMapper;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final EmailValidationService emailValidationService;
 
     public RestaurantOwnerResponse create(RestaurantOwnerRequest request) {
 
@@ -54,7 +54,7 @@ public class RestaurantOwnerService {
         log.debug("Verificando existência do usuário ID: {}", id);
 
         var owner = ownerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Dono de Restaurante", "id", id));
 
         ownerRepository.delete(owner);
         log.info("Dono removido com sucesso | id={}", id);
@@ -63,7 +63,7 @@ public class RestaurantOwnerService {
 
     public RestaurantOwnerResponse update(Long id, RestaurantOwnerRequest request){
         var owner = ownerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Dono de Restaurante", "id", id));
 
         owner.setName(request.name());
         owner.setRestaurantName(request.restaurantName());
@@ -83,7 +83,7 @@ public class RestaurantOwnerService {
 
         if (owners.isEmpty()) {
             log.warn("Nenhum dono encontrado de nome = {}", name);
-            throw new RuntimeException("Nenhum dono encontrado com o nome: " + name);
+            throw new ResourceNotFoundException("Dono de Restaurante", "nome", name);
         }
 
         log.info("Donos encontrados | quantidade = {} ", owners.size());
@@ -98,11 +98,11 @@ public class RestaurantOwnerService {
         log.info("Iniciando troca de senha (owner) | id={}", id);
 
         RestaurantOwner owner = ownerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dono não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Dono de Restaurante", "id", id));
 
         if (!passwordEncoder.matches(request.oldPassword(), owner.getPassword())) {
             log.warn("Senha inválida | id={}", id);
-            throw new RuntimeException("Senha atual inválida");
+            throw new InvalidCredentialsException("Senha atual inválida");
         }
 
         owner.setPassword(passwordEncoder.encode(request.newPassword()));
@@ -112,12 +112,6 @@ public class RestaurantOwnerService {
     }
 
     private void validateEmail(String email) {
-
-        log.debug("Validando email | email={}", email);
-
-        if (ownerRepository.existsByEmail(email) || customerRepository.existsByEmail(email)) {
-            log.warn("Email já cadastrado | email={}", email);
-            throw new RuntimeException("Email já cadastrado");
-        }
+        emailValidationService.validateEmailUniqueness(email);
     }
 }
