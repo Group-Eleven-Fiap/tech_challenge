@@ -4,6 +4,7 @@ import br.com.fiap.restaurant_management.entity.dtos.ChangePasswordRequest;
 import br.com.fiap.restaurant_management.entity.dtos.CustomerRequest;
 import br.com.fiap.restaurant_management.entity.dtos.CustomerResponse;
 import br.com.fiap.restaurant_management.service.CustomerService;
+import br.com.fiap.restaurant_management.Config.CustomerControllerApi;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +18,12 @@ import java.util.List;
 @RequestMapping("/v1/customers")
 @RequiredArgsConstructor
 @Slf4j
-public class CustomerController {
+public class CustomerController implements CustomerControllerApi {
 
     private final CustomerService customerService;
 
-    @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer(
-            @RequestBody @Valid CustomerRequest request) {
+    @Override
+    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody @Valid CustomerRequest request) {
 
         CustomerResponse response = customerService.create(request);
 
@@ -32,9 +32,8 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<CustomerResponse>> findByName(
-            @RequestParam String name) {
+    @Override
+    public ResponseEntity<List<CustomerResponse>> findByName(@RequestParam String name) {
 
         log.info("Buscando cliente com nome {}", name);
 
@@ -45,7 +44,7 @@ public class CustomerController {
         return ResponseEntity.ok(customers);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         log.info("Recebendo requisição para deletar cliente com id: {}", id);
@@ -57,10 +56,8 @@ public class CustomerController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponse> updateCustomer(
-            @PathVariable Long id,
-            @RequestBody @Valid CustomerRequest request) {
+    @Override
+    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @RequestBody @Valid CustomerRequest request) {
 
         log.info("Recebendo requisição para atualizar cliente com ID: {}", id);
 
@@ -71,10 +68,8 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/{id}/password")
-    public ResponseEntity<Void> changePassword(
-            @PathVariable Long id,
-            @RequestBody @Valid ChangePasswordRequest request) {
+    @Override
+    public ResponseEntity<Void> changePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordRequest request) {
 
         log.info("Cliente solicitando troca de senha | id={}", id);
 

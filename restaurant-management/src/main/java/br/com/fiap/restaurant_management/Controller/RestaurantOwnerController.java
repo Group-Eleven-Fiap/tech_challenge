@@ -2,6 +2,7 @@ package br.com.fiap.restaurant_management.Controller;
 
 import br.com.fiap.restaurant_management.entity.dtos.*;
 import br.com.fiap.restaurant_management.service.RestaurantOwnerService;
+import br.com.fiap.restaurant_management.Config.RestaurantOwnerControllerApi;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +16,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/owners")
 @Slf4j
-public class RestaurantOwnerController {
+public class RestaurantOwnerController implements RestaurantOwnerControllerApi {
 
     private final RestaurantOwnerService restaurantOwnerService;
 
-    @PostMapping
-    public ResponseEntity<RestaurantOwnerResponse> createOwner(
-            @RequestBody @Valid RestaurantOwnerRequest request) {
+    @Override
+    public ResponseEntity<RestaurantOwnerResponse> createOwner(@RequestBody @Valid RestaurantOwnerRequest request) {
 
         log.info("Recebendo requisição para cadastrar novo proprietário: {}", request.email());
 
@@ -32,9 +32,8 @@ public class RestaurantOwnerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<RestaurantOwnerResponse>> findByName(
-            @RequestParam String name) {
+    @Override
+    public ResponseEntity<List<RestaurantOwnerResponse>> findByName(@RequestParam String name) {
 
         log.info("Buscando proprietário(s) com nome: {}", name);
 
@@ -45,7 +44,7 @@ public class RestaurantOwnerController {
         return ResponseEntity.ok(owners);
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     public ResponseEntity<Void> delete(@PathVariable Long id) {
 
         log.info("Recebendo requisição para deletar proprietário | ID: {}", id);
@@ -57,10 +56,8 @@ public class RestaurantOwnerController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RestaurantOwnerResponse> updateOwner(
-            @PathVariable Long id,
-            @RequestBody @Valid RestaurantOwnerRequest request) {
+    @Override
+    public ResponseEntity<RestaurantOwnerResponse> updateOwner(@PathVariable Long id, @RequestBody @Valid RestaurantOwnerRequest request) {
 
         log.info("Recebendo requisição para atualizar proprietário | ID: {}", id);
 
@@ -71,10 +68,8 @@ public class RestaurantOwnerController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/{id}/password")
-    public ResponseEntity<Void> changePassword(
-            @PathVariable Long id,
-            @RequestBody @Valid ChangePasswordRequest request) {
+    @Override
+    public ResponseEntity<Void> changePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordRequest request) {
 
         log.info("Proprietário solicitando troca de senha | ID: {}", id);
 
