@@ -2,6 +2,7 @@ package br.com.fiap.restaurant_management.Config;
 
 import br.com.fiap.restaurant_management.exception.BusinessRuleException;
 import br.com.fiap.restaurant_management.exception.InvalidCredentialsException;
+import br.com.fiap.restaurant_management.exception.ResourceAlreadyExistsException;
 import br.com.fiap.restaurant_management.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -61,12 +62,32 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.warn("Violação de regra de negócio [{}]: {}", ex.getCode(), ex.getMessage());
 
         // Email duplicado retorna 409, outras violações retornam 400
-        HttpStatus status = ex.getCode().contains("EMAIL") ? HttpStatus.CONFLICT : HttpStatus.BAD_REQUEST;
+//        HttpStatus status = ex.getCode().contains("EMAIL") ? HttpStatus.CONFLICT : HttpStatus.BAD_REQUEST;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
 
         problemDetail.setType(URI.create(BASE_URL + "/business-rule-violation"));
         problemDetail.setTitle("Violação de regra de negócio");
+        problemDetail.setProperty("code", ex.getCode());
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("path", request.getDescription(false).replace("uri=", ""));
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ProblemDetail handleResourceAlreadyExistsException(ResourceAlreadyExistsException ex, WebRequest request) {
+
+        log.warn("Registro duplicado: {}", ex.getMessage());
+
+
+        HttpStatus status = HttpStatus.CONFLICT ;
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
+
+        problemDetail.setType(URI.create(BASE_URL + "/resource-already-exists"));
+        problemDetail.setTitle("Registro duplicado");
         problemDetail.setProperty("code", ex.getCode());
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("path", request.getDescription(false).replace("uri=", ""));
