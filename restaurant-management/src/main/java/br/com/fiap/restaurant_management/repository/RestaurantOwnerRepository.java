@@ -1,6 +1,5 @@
 package br.com.fiap.restaurant_management.repository;
 
-import br.com.fiap.restaurant_management.entity.Customer;
 import br.com.fiap.restaurant_management.entity.RestaurantOwner;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,4 +12,6 @@ public interface RestaurantOwnerRepository extends JpaRepository<RestaurantOwner
     boolean existsByEmail(String email);
 
     Optional<RestaurantOwner> findByEmail(String email);
+
+    Optional<RestaurantOwner> findByLogin(String login);
 }

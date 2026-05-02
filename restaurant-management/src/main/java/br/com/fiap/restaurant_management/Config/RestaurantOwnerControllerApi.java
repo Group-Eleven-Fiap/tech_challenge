@@ -1,8 +1,6 @@
 package br.com.fiap.restaurant_management.Config;
 
-import br.com.fiap.restaurant_management.entity.dtos.ChangePasswordRequest;
-import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerRequest;
-import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerResponse;
+import br.com.fiap.restaurant_management.entity.dtos.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -77,5 +75,71 @@ public interface RestaurantOwnerControllerApi {
         @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetail.class), examples = @ExampleObject(value = "{\"type\": \"https://api.restaurant-management.com/errors/internal-server-error\", \"title\": \"Erro interno do servidor\", \"status\": 500, \"detail\": \"Um erro inesperado ocorreu\", \"timestamp\": \"2023-10-01T10:00:00\", \"path\": \"/v1/owners/1/password\", \"errorId\": \"Exception\"}")))
     })
     ResponseEntity<Void> changePassword(@PathVariable Long id, @RequestBody @Valid ChangePasswordRequest request);
+
+    @PostMapping("/login")
+    @Operation(summary = "Validar login do proprietário de restaurante no sistema", description = "Valida os dados de login de um proprietário de restaurante no sistema.")
+    @RequestBody(
+            description = "Dados de login do proprietário do restaurante",
+            required = true,
+            content = @Content(
+                    mediaType = "application/json", schema = @Schema(implementation = LoginRequest.class)))
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Login do usuário validado com sucesso",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LoginResponse.class))),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Dados inválidos",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(
+                                    value = "{" +
+                                            "\"type\": \"https://api.restaurant-management.com/errors/business-rule-violation\", " +
+                                            "\"title\": \"Violação de regra de negócio\", " +
+                                            "\"status\": 400, " +
+                                            "\"detail\": \"Campo obrigatório não preenchido\", " +
+                                            "\"code\": \"VALIDATION_ERROR\", " +
+                                            "\"timestamp\": \"2023-10-01T10:00:00\", " +
+                                            "\"path\": \"/v1/customers\"}")
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Credenciais inválidas",
+                    content = @Content(
+                            mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(
+                                    value = "{" +
+                                            "\"type\": \"https://api.restaurant-management.com/errors/invalid-credentials\", " +
+                                            "\"title\": \"Credenciais inválidas\", " +
+                                            "\"status\": 401, " +
+                                            "\"detail\": \"Usuário e/ou senha inválido\", " +
+                                            "\"timestamp\": \"2023-10-01T10:00:00\", " +
+                                            "\"path\": \"/v1/auth/login\"}")
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Erro interno do servidor",
+                    content = @Content(mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject(
+                                    value = "{" +
+                                            "\"type\": \"https://api.restaurant-management.com/errors/internal-server-error\"," +
+                                            " \"title\": \"Erro interno do servidor\"," +
+                                            " \"status\": 500, " +
+                                            "\"detail\": \"Um erro inesperado ocorreu\", " +
+                                            "\"timestamp\": \"2023-10-01T10:00:00\", " +
+                                            "\"path\": \"/v1/customers\", " +
+                                            "\"errorId\": \"Exception\"}")
+                    )
+            )
+    })
+    ResponseEntity<LoginResponse> validateLogin(@RequestBody @Valid LoginRequest request);
 }
 

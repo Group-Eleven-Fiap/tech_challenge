@@ -4,6 +4,7 @@ import br.com.fiap.restaurant_management.entity.Customer;
 import br.com.fiap.restaurant_management.entity.dtos.ChangePasswordRequest;
 import br.com.fiap.restaurant_management.entity.dtos.CustomerRequest;
 import br.com.fiap.restaurant_management.entity.dtos.CustomerResponse;
+import br.com.fiap.restaurant_management.entity.dtos.LoginRequest;
 import br.com.fiap.restaurant_management.exception.InvalidCredentialsException;
 import br.com.fiap.restaurant_management.exception.ResourceNotFoundException;
 import br.com.fiap.restaurant_management.mapper.AddressMapper;
@@ -87,6 +88,19 @@ public class CustomerService {
         return customers.stream()
                 .map(customerMapper::toCustomerResponse)
                 .toList();
+    }
+
+    public void validateLogin(LoginRequest request) {
+        String login = request.login();
+
+        Customer customer = customerRepository
+                .findByLogin(login)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "login", login));
+
+        if (!passwordEncoder.matches(request.password(), customer.getPassword())) {
+            throw new InvalidCredentialsException("Senha incorreta");
+        }
+
     }
 
     private Customer findById(Long id) {

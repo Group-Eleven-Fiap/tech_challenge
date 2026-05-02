@@ -79,4 +79,10 @@ public class RestaurantOwnerController implements RestaurantOwnerControllerApi {
 
         return ResponseEntity.noContent().build();
     }
+
+    @Override
+    public ResponseEntity<LoginResponse> validateLogin(@RequestBody @Valid LoginRequest request) {
+        restaurantOwnerService.validateLogin(request);
+        return ResponseEntity.ok(new LoginResponse("Usuário validado com sucesso"));
+    }
 }

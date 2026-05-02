@@ -2,6 +2,7 @@ package br.com.fiap.restaurant_management.service;
 
 import br.com.fiap.restaurant_management.entity.RestaurantOwner;
 import br.com.fiap.restaurant_management.entity.dtos.ChangePasswordRequest;
+import br.com.fiap.restaurant_management.entity.dtos.LoginRequest;
 import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerRequest;
 import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerResponse;
 import br.com.fiap.restaurant_management.exception.InvalidCredentialsException;
@@ -109,6 +110,19 @@ public class RestaurantOwnerService {
         ownerRepository.save(owner);
 
         log.info("Senha alterada com sucesso | id={} ", id);
+    }
+
+    public void validateLogin(LoginRequest request) {
+        String login = request.login();
+
+        RestaurantOwner owner = ownerRepository
+                .findByLogin(login)
+                .orElseThrow(() -> new ResourceNotFoundException("Proprietário de Restaurante", "login", login));
+
+        if (!passwordEncoder.matches(request.password(), owner.getPassword())) {
+            throw new InvalidCredentialsException("Senha incorreta");
+        }
+
     }
 
     private void validateEmail(String email) {

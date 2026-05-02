@@ -1,8 +1,6 @@
 package br.com.fiap.restaurant_management.Controller;
 
-import br.com.fiap.restaurant_management.entity.dtos.ChangePasswordRequest;
-import br.com.fiap.restaurant_management.entity.dtos.CustomerRequest;
-import br.com.fiap.restaurant_management.entity.dtos.CustomerResponse;
+import br.com.fiap.restaurant_management.entity.dtos.*;
 import br.com.fiap.restaurant_management.service.CustomerService;
 import br.com.fiap.restaurant_management.Config.CustomerControllerApi;
 import jakarta.validation.Valid;
@@ -78,5 +76,11 @@ public class CustomerController implements CustomerControllerApi {
         log.info("Senha alterada com sucesso | id={}", id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<LoginResponse> validateLogin(@RequestBody @Valid LoginRequest request) {
+        customerService.validateLogin(request);
+        return ResponseEntity.ok(new LoginResponse("Usuário validado com sucesso"));
     }
 }
