@@ -78,67 +78,12 @@ public interface CustomerControllerApi {
 
     @PostMapping("/login")
     @Operation(summary = "Validar login no sistema", description = "Valida os dados de login de um cliente no sistema.")
-    @RequestBody(
-            description = "Dados dde login do cliente",
-            required = true,
-            content = @Content(
-                    mediaType = "application/json", schema = @Schema(implementation = LoginRequest.class)))
+    @RequestBody(description = "Dados de login do cliente", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginRequest.class)))
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Login do usuário validado com sucesso",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = LoginResponse.class))),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Dados inválidos",
-                    content = @Content(
-                            mediaType = "application/problem+json",
-                            schema = @Schema(implementation = ProblemDetail.class),
-                            examples = @ExampleObject(
-                                    value = "{" +
-                                            "\"type\": \"https://api.restaurant-management.com/errors/business-rule-violation\", " +
-                                            "\"title\": \"Violação de regra de negócio\", " +
-                                            "\"status\": 400, " +
-                                            "\"detail\": \"Campo obrigatório não preenchido\", " +
-                                            "\"code\": \"VALIDATION_ERROR\", " +
-                                            "\"timestamp\": \"2023-10-01T10:00:00\", " +
-                                            "\"path\": \"/v1/customers\"}")
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Credenciais inválidas",
-                    content = @Content(
-                            mediaType = "application/problem+json",
-                            schema = @Schema(implementation = ProblemDetail.class),
-                            examples = @ExampleObject(
-                                    value = "{" +
-                                            "\"type\": \"https://api.restaurant-management.com/errors/invalid-credentials\", " +
-                                            "\"title\": \"Credenciais inválidas\", " +
-                                            "\"status\": 401, " +
-                                            "\"detail\": \"Usuário e/ou senha inválido\", " +
-                                            "\"timestamp\": \"2023-10-01T10:00:00\", " +
-                                            "\"path\": \"/v1/auth/login\"}")
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content(mediaType = "application/problem+json",
-                            schema = @Schema(implementation = ProblemDetail.class),
-                            examples = @ExampleObject(
-                                    value = "{" +
-                                            "\"type\": \"https://api.restaurant-management.com/errors/internal-server-error\"," +
-                                            " \"title\": \"Erro interno do servidor\"," +
-                                            " \"status\": 500, " +
-                                            "\"detail\": \"Um erro inesperado ocorreu\", " +
-                                            "\"timestamp\": \"2023-10-01T10:00:00\", " +
-                                            "\"path\": \"/v1/customers\", " +
-                                            "\"errorId\": \"Exception\"}")
-                    )
-            )
+            @ApiResponse(responseCode = "200", description = "Login do usuário validado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = LoginResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetail.class), examples = @ExampleObject(value = "{\"type\": \"https://api.restaurant-management.com/errors/business-rule-violation\", \"title\": \"Violação de regra de negócio\", \"status\": 400, \"detail\": \"Campo obrigatório não preenchido\", \"code\": \"VALIDATION_ERROR\", \"timestamp\": \"2023-10-01T10:00:00\", \"path\": \"/v1/customers/login\"}"))),
+            @ApiResponse(responseCode = "401", description = "Credenciais inválidas", content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetail.class), examples = @ExampleObject(value = "{\"type\": \"https://api.restaurant-management.com/errors/invalid-credentials\", \"title\": \"Credenciais inválidas\", \"status\": 401, \"detail\": \"Usuário e/ou senha inválido\", \"timestamp\": \"2023-10-01T10:00:00\", \"path\": \"/v1/customers/login\"}"))),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetail.class), examples = @ExampleObject(value = "{\"type\": \"https://api.restaurant-management.com/errors/internal-server-error\", \"title\": \"Erro interno do servidor\", \"status\": 500, \"detail\": \"Um erro inesperado ocorreu\", \"timestamp\": \"2023-10-01T10:00:00\", \"path\": \"/v1/customers/login\", \"errorId\": \"Exception\"}")))
     })
     ResponseEntity<LoginResponse> validateLogin(@RequestBody @Valid LoginRequest request);
 }
