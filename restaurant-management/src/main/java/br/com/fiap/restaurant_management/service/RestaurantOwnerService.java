@@ -1,0 +1,131 @@
+package br.com.fiap.restaurant_management.service;
+
+import br.com.fiap.restaurant_management.entity.RestaurantOwner;
+import br.com.fiap.restaurant_management.entity.dtos.ChangePasswordRequest;
+import br.com.fiap.restaurant_management.entity.dtos.LoginRequest;
+import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerRequest;
+import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerResponse;
+import br.com.fiap.restaurant_management.exception.InvalidCredentialsException;
+import br.com.fiap.restaurant_management.exception.ResourceNotFoundException;
+import br.com.fiap.restaurant_management.mapper.AddressMapper;
+import br.com.fiap.restaurant_management.mapper.RestaurantOwnerMapper;
+import br.com.fiap.restaurant_management.repository.RestaurantOwnerRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class RestaurantOwnerService {
+
+    private final RestaurantOwnerRepository ownerRepository;
+    private final AddressMapper addressMapper;
+    private final RestaurantOwnerMapper restaurantOwnerMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final EmailValidationService emailValidationService;
+
+    public RestaurantOwnerResponse create(RestaurantOwnerRequest request) {
+
+        log.info("Iniciando criação de dono de restaurante | email={} | cnpj={}", request.email(), request.cnpj());
+
+        validateEmail(request.email());
+
+        RestaurantOwner owner = RestaurantOwner.builder()
+                .name(request.name())
+                .email(request.email())
+                .login(request.login())
+                .password(passwordEncoder.encode(request.password()))
+                .restaurantName(request.restaurantName())
+                .cnpj(request.cnpj())
+                .address(addressMapper.toModel(request.address()))
+                .build();
+
+        RestaurantOwner saved = ownerRepository.save(owner);
+
+        log.info("Dono de restaurante criado | id={}", saved.getId());
+
+        return restaurantOwnerMapper.toRestaurantOwnerResponse(saved);
+    }
+
+    public void delete(Long id) {
+        log.debug("Verificando existência do usuário ID: {}", id);
+
+        var owner = ownerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Dono de Restaurante", "id", id));
+
+        ownerRepository.delete(owner);
+        log.info("Dono removido com sucesso | id={}", id);
+
+    }
+
+    public RestaurantOwnerResponse update(Long id, RestaurantOwnerRequest request){
+        var owner = ownerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Dono de Restaurante", "id", id));
+
+        owner.setName(request.name());
+        owner.setRestaurantName(request.restaurantName());
+        owner.setAddress(addressMapper.toModel(request.address()));
+
+        RestaurantOwner updated = ownerRepository.save(owner);
+
+        log.info("Usuário atualizado com sucesso | id={}", id);
+
+        return restaurantOwnerMapper.toRestaurantOwnerResponse(updated);
+    }
+
+    public List<RestaurantOwnerResponse> findByName(String name){
+        log.info("Buscando donos por nome | name={}", name);
+
+        List<RestaurantOwner> owners = ownerRepository.findByNameContainingIgnoreCase(name);
+
+        if (owners.isEmpty()) {
+            log.warn("Nenhum dono encontrado de nome = {}", name);
+            throw new ResourceNotFoundException("Dono de Restaurante", "nome", name);
+        }
+
+        log.info("Donos encontrados | quantidade = {} ", owners.size());
+
+        return owners.stream()
+                .map(restaurantOwnerMapper::toRestaurantOwnerResponse)
+                .toList();
+    }
+
+    public void changePassword(Long id, ChangePasswordRequest request) {
+
+        log.info("Iniciando troca de senha (owner) | id={}", id);
+
+        RestaurantOwner owner = ownerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Dono de Restaurante", "id", id));
+
+        if (!passwordEncoder.matches(request.oldPassword(), owner.getPassword())) {
+            log.warn("Senha inválida | id={}", id);
+            throw new InvalidCredentialsException("Senha atual inválida");
+        }
+
+        owner.setPassword(passwordEncoder.encode(request.newPassword()));
+        ownerRepository.save(owner);
+
+        log.info("Senha alterada com sucesso | id={} ", id);
+    }
+
+    public void validateLogin(LoginRequest request) {
+        String login = request.login();
+
+        RestaurantOwner owner = ownerRepository
+                .findByLogin(login)
+                .orElseThrow(() -> new ResourceNotFoundException("Proprietário de Restaurante", "login", login));
+
+        if (!passwordEncoder.matches(request.password(), owner.getPassword())) {
+            throw new InvalidCredentialsException("Senha incorreta");
+        }
+
+    }
+
+    private void validateEmail(String email) {
+        emailValidationService.validateEmailUniqueness(email);
+    }
+}
