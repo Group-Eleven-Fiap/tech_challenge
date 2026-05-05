@@ -1,4 +1,4 @@
-package br.com.fiap.restaurant_management.Config;
+package br.com.fiap.restaurant_management.config;
 
 import br.com.fiap.restaurant_management.entity.dtos.*;
 import io.swagger.v3.oas.annotations.Operation;

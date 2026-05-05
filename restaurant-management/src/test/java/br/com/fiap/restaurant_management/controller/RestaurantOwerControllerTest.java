@@ -1,7 +1,6 @@
 package br.com.fiap.restaurant_management.controller;
 
-import br.com.fiap.restaurant_management.Config.GlobalExceptionHandler;
-import br.com.fiap.restaurant_management.Controller.RestaurantOwnerController;
+import br.com.fiap.restaurant_management.config.GlobalExceptionHandler;
 import br.com.fiap.restaurant_management.entity.dtos.ChangePasswordRequest;
 import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerRequest;
 import br.com.fiap.restaurant_management.entity.dtos.RestaurantOwnerResponse;
