@@ -1,0 +1,792 @@
+{
+  "info": {
+    "_postman_id": "8aa57bed-7716-49ec-935e-ee11a15de0d2",
+    "name": "Tech Challenge",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26297422"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "item": [
+        {
+          "name": "Customer",
+          "item": [
+            {
+              "name": "New Customer",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{  \"name\": \"Cliente Teste Novo\",  \"email\": \"cliente.teste.novo@email.com\",  \"login\": \"cliente.teste.novo\",  \"password\": \"senhaSegura123\", \r\n \"address\": {    \"street\": \"Rua das Flores\",    \"number\": \"123\",    \"complement\": \"Apto 42\",    \"neighborhood\": \"Centro\",    \"city\": \"São Paulo\",    \"state\": \"SP\",    \"zipCode\": \"01001-000\"  } }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/v1/customers",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "v1",
+                    "customers"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login Customer - Success",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{  \r\n    \"login\": \"cliente.teste.novo\",  \r\n    \"password\": \"senhaSegura123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/v1/customers/login",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "v1",
+                    "customers",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login Customer - Error",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{  \r\n    \"login\": \"cliente.teste.novo\",  \r\n    \"password\": \"senhainvalida\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/v1/customers/login",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "v1",
+                    "customers",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Owner",
+          "item": [
+            {
+              "name": "Login Owner - Success",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{  \r\n    \"login\": \"teste.novo.dono\",  \r\n    \"password\": \"senhaSegura123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/v1/owners/login",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "v1",
+                    "owners",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "New Owner",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{  \"name\": \"Teste Novo Dono\",  \"email\": \"teste.novo.dono@email.com\",  \"login\": \"teste.novo.dono\",  \"password\": \"senhaSegura123\", \"restaurantName\": \"teste de nome\",\r\n\"cnpj\": \"123\", \"address\": {    \"street\": \"Rua das Flores\",    \"number\": \"123\",    \"complement\": \"Apto 42\",    \"neighborhood\": \"Centro\",    \"city\": \"São Paulo\",    \"state\": \"SP\",    \"zipCode\": \"01001-000\"  } }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/v1/owners",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "v1",
+                    "owners"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login Owner - Error",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{  \r\n    \"login\": \"teste.novo.dono\",  \r\n    \"password\": \"senhainvalida\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/v1/owners/login",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "v1",
+                    "owners",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Cadastrar cliente - SUCESSO",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"João Silva\",\r\n  \"email\": \"joao.silva@example.com\",\r\n  \"login\": \"joaosilva\",\r\n  \"password\": \"senhaSegura123\",\r\n  \"address\": {\r\n    \"street\": \"Avenida Paulista\",\r\n    \"number\": \"1000\",\r\n    \"city\": \"Osasco\",\r\n    \"state\": \"Sao Paulo\",\r\n    \"zipCode\": \"01310-100\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/customers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cadastrar cliente - cenario email duplicado",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Joao Conceicao da silva\",\r\n  \"email\": \"joao.silva@example.com\",\r\n  \"login\": \"joaoconceicao\",\r\n  \"password\": \"senhaSegura123\",\r\n  \"address\": {\r\n    \"street\": \"Avenida Paulista\",\r\n    \"number\": \"100\",\r\n    \"city\": \"Barueri\",\r\n    \"state\": \"Sao Paulo\",\r\n    \"zipCode\": \"01310-100\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/customers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar cliente por Nome - SUCESSO",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/customers/search?name=Pedro Henrique",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Pedro Henrique"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar cliente por Nome - cenario: Nome do cliente nao encontrado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/customers/search?name=Pedro Henriqu",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Pedro Henriqu"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar cliente - SUCESSO",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/customers/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar cliente - cenario cliente com ID nao encontrado",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/customers/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar cliente - SUCESSO",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"João Silva\",\r\n  \"email\": \"joao.silva@example.com\",\r\n  \"login\": \"joaosilva\",\r\n  \"password\": \"senhaSegura123\",\r\n  \"address\": {\r\n    \"street\": \"Avenida Brasil\",\r\n    \"number\": \"55\",\r\n    \"city\": \"Barueri\",\r\n    \"state\": \"Sao Paulo\",\r\n    \"zipCode\": \"01310-110\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/customers/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar cliente - cenario cliente com ID nao encontrado",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"João Silva\",\r\n  \"email\": \"joao.silva@example.com\",\r\n  \"login\": \"joaosilva\",\r\n  \"password\": \"senhaSegura123\",\r\n  \"address\": {\r\n    \"street\": \"Avenida Brasil\",\r\n    \"number\": \"55\",\r\n    \"city\": \"Barueri\",\r\n    \"state\": \"Sao Paulo\",\r\n    \"zipCode\": \"01310-110\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/customers/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Trocar senha - SUCESSO",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"oldPassword\": \"senhaSegura123\",\r\n  \"newPassword\": \"senha123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/customers/2/password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers",
+                "2",
+                "password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Trocar senha - cenario cliente com ID nao encontrado",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"oldPassword\": \"senhaSegura123\",\r\n  \"newPassword\": \"senha123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/customers/2/password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "customers",
+                "2",
+                "password"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Restaurant Owner",
+      "item": [
+        {
+          "name": "Cadastrar owner - SUCESSO",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Ricardo Oliveira\",\r\n  \"email\": \"contato@restaurante.com\",\r\n  \"login\": \"ricardo_owner\",\r\n  \"password\": \"SenhaProprietario456\",\r\n  \"restaurantName\": \"Sabor & Arte\",\r\n  \"cnpj\": \"12.345.678/0001-99\",\r\n  \"address\": {\r\n    \"street\": \"Rua das Flores\",\r\n    \"number\": \"50\",\r\n    \"city\": \"Curitiba\",\r\n    \"state\": \"PR\",\r\n    \"zipCode\": \"80000-000\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/owners",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cadastrar owner - Erro email duplicado",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Pedro Henrique\",\r\n  \"email\": \"contato@restaurante.com\",\r\n  \"login\": \"pedro_owner\",\r\n  \"password\": \"SenhaProprietario456\",\r\n  \"restaurantName\": \"Sabor & Arte\",\r\n  \"cnpj\": \"12.345.678/0001-99\",\r\n  \"address\": {\r\n    \"street\": \"Rua girassois\",\r\n    \"number\": \"509\",\r\n    \"city\": \"Curitiba\",\r\n    \"state\": \"PR\",\r\n    \"zipCode\": \"80000-000\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/owners",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar owner por nome - SUCESSO",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/owners/search?name=Ricardo Oliveira",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Ricardo Oliveira"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar owner por nome - ERRO proprietario nao encontrado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/owners/search?name=Pedro Henrique",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Pedro Henrique"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Owner - SUCESSO",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Ricardo Oliveira\",\r\n  \"email\": \"contato@restaurante.com\",\r\n  \"login\": \"ricardo_owner\",\r\n  \"password\": \"SenhaProprietario456\",\r\n  \"restaurantName\": \"Sabor & Arte\",\r\n  \"cnpj\": \"12.345.678/0001-99\",\r\n  \"address\": {\r\n    \"street\": \"Rua das Margaridas\",\r\n    \"number\": \"79\",\r\n    \"city\": \"Curitiba\",\r\n    \"state\": \"PR\",\r\n    \"zipCode\": \"80000-000\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/owners/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar cliente - cenario cliente com ID nao encontrado",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Ricardo Oliveira\",\r\n  \"email\": \"contato@restaurante.com\",\r\n  \"login\": \"ricardo_owner\",\r\n  \"password\": \"SenhaProprietario456\",\r\n  \"restaurantName\": \"Sabor & Arte\",\r\n  \"cnpj\": \"12.345.678/0001-99\",\r\n  \"address\": {\r\n    \"street\": \"Rua das Margaridas\",\r\n    \"number\": \"79\",\r\n    \"city\": \"Curitiba\",\r\n    \"state\": \"PR\",\r\n    \"zipCode\": \"80000-000\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/owners/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Trocar senha - SUCESSO",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"oldPassword\": \"SenhaProprietario456\",\r\n  \"newPassword\": \"senha456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/owners/1/password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners",
+                "1",
+                "password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Trocar senha - ID de proprietario nao encontrado",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"oldPassword\": \"SenhaProprietario456\",\r\n  \"newPassword\": \"senha456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/v1/owners/3/password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners",
+                "3",
+                "password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Excluir Owner - SUCESSO",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/owners/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Excluir Owner - ID de proprietario nao encontrado",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/v1/owners/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "v1",
+                "owners",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
