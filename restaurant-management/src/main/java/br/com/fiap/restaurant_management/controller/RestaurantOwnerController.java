@@ -1,8 +1,8 @@
-package br.com.fiap.restaurant_management.Controller;
+package br.com.fiap.restaurant_management.controller;
 
 import br.com.fiap.restaurant_management.entity.dtos.*;
 import br.com.fiap.restaurant_management.service.RestaurantOwnerService;
-import br.com.fiap.restaurant_management.Config.RestaurantOwnerControllerApi;
+import br.com.fiap.restaurant_management.config.RestaurantOwnerControllerApi;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

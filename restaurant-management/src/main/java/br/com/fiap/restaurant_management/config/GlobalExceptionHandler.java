@@ -1,4 +1,4 @@
-package br.com.fiap.restaurant_management.Config;
+package br.com.fiap.restaurant_management.config;
 
 import br.com.fiap.restaurant_management.exception.BusinessRuleException;
 import br.com.fiap.restaurant_management.exception.InvalidCredentialsException;
